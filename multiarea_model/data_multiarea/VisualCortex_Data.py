@@ -444,15 +444,12 @@ def process_raw_data():
 
         areas = temp
 
-        for i in range(1, 9, 1):
+        for i in range(1, 11):
             temp = next(myreader)
             dict_ = {}
-            for j in range(1, 10, 1):
+            for j in range(1, 12):
                 dict_[areas[j]] = float(temp[j])
             intrinsic_connectivity[areas[i]] = dict_
-        pprint(intrinsic_connectivity)
-
-
 
     """
     11. Numbers of neurons and external inputs in V1
@@ -461,10 +458,11 @@ def process_raw_data():
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
         num_V1 = {}
-        for i in range(0, 9, 1):
+        for i in range(0, 11):
             temp = next(myreader)
             num_V1[temp[0]] = {'neurons': float(
                 temp[1]), 'ext_inputs': float(temp[2])}
+        pprint(num_V1)
 
     """
     Two alternatives for determining laminar thicknesses:
