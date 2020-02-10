@@ -462,7 +462,6 @@ def process_raw_data():
             temp = next(myreader)
             num_V1[temp[0]] = {'neurons': float(
                 temp[1]), 'ext_inputs': float(temp[2])}
-        pprint(num_V1)
 
     """
     Two alternatives for determining laminar thicknesses:

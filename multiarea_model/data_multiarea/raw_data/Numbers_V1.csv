@@ -1,9 +1,9 @@
-# Data from Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit: Relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785–806. https://doi.org/10.1093/cercor/bhs358
+# Data from Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit: Relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785–806. https://doi.org/10.1093/cercor/bhs358 (L3B added with the assumption of 0 neurons with 0 ext_input for now - TODO!)
 
 23E	20683	1600
 23I	5834	1500
 3BE	0	0
-3BI	0	0											
+3BI	0	0
 4E	21915	2100
 4I	5479	1900
 5E	4850	2000
