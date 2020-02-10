@@ -156,13 +156,15 @@ def process_raw_data():
     temp = pd.read_csv(os.path.join(datapath, 'NeuronalDensities_NeuN.csv'), sep='\t',
                        skiprows=2,
                        names=['area', 'overall', 't_error', '23', '23_error',
-                              '4', '4_error', '56', '56_error'])
+                              '3B', '3B_error', '4', '4_error', '56', '56_error'])
 
     for i in np.arange(0, len(temp), 1):
         dict_ = {'overall': {'value': temp.iloc[i]['overall'],
                              'error': temp.iloc[i]['t_error']},
                  '23': {'value': temp.iloc[i]['23'],
                         'error': temp.iloc[i]['23_error']},
+                 '3B': {'value': temp.iloc[i]['3B'],
+                       'error': temp.iloc[i]['3B_error']},
                  '4': {'value': temp.iloc[i]['4'],
                        'error': temp.iloc[i]['4_error']},
                  '56': {'value': temp.iloc[i]['56'],
