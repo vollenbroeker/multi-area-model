@@ -482,7 +482,7 @@ def process_raw_data():
     with open(os.path.join(datapath, 'laminar_thicknesses_macaque.csv'), 'rt') as f:
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
-        names = next(myreader)[1:16]
+        names = next(myreader)[1:17]
         for i in range(0, len(names)):
             names[i] = re.sub('L', '', names[i])
             names[i] = re.sub('/', '', names[i])
@@ -691,35 +691,36 @@ def process_raw_data():
         else:
             neuronal_density_data_FV91[i] = neuronal_density_data[i].copy()
 
-    # map neuronal density data to 4 layers by dividing
-    neuronal_density_data_FV91_4layers = {}
+    # map neuronal density data to 5 layers by dividing
+    neuronal_density_data_FV91_5layers = {}
     for i in list(neuronal_density_data_FV91.keys()):
-        neuronal_density_data_FV91_4layers.update({i: {'23': 0., 'overall': 0.,
+        neuronal_density_data_FV91_5layers.update({i: {'23': 0., '3B': 0., 'overall': 0.,
                                                        '4': {'value': 0.0, 'error': 0.0},
                                                        '5': 0., '6': 0.}})
 
-    for i in list(neuronal_density_data_FV91_4layers.keys()):
-        for layer in ['23', '4', '56']:
+    for i in list(neuronal_density_data_FV91_5layers.keys()):
+        for layer in ['23', '3B', '4', '56']:
             if neuronal_density_data_FV91[i][layer]['value'] > 0.:
                 # Assign equal density to layers 5 and 6
                 if layer == '56':
-                    neuronal_density_data_FV91_4layers[i]['5'] = neuronal_density_data_FV91[
+                    neuronal_density_data_FV91_5layers[i]['5'] = neuronal_density_data_FV91[
                         i]['56']['value'] * gradient + intercept
-                    neuronal_density_data_FV91_4layers[i]['6'] = neuronal_density_data_FV91[
+                    neuronal_density_data_FV91_5layers[i]['6'] = neuronal_density_data_FV91[
                         i]['56']['value'] * gradient + intercept
                 else:
-                    neuronal_density_data_FV91_4layers[i][layer] = neuronal_density_data_FV91[
+                    neuronal_density_data_FV91_5layers[i][layer] = neuronal_density_data_FV91[
                         i][layer]['value'] * gradient + intercept
             else:
-                neuronal_density_data_FV91_4layers[i][layer] = 0.
+                neuronal_density_data_FV91_5layers[i][layer] = 0.
         # if there is Nissl data, then take it, otherwise
         # transform NeuN data with the linear fit
         if i in neuronal_density_data_updated_FV91:
-            neuronal_density_data_FV91_4layers[i][
+            neuronal_density_data_FV91_5layers[i][
                 'overall'] = neuronal_density_data_updated_FV91[i]
         else:
-            neuronal_density_data_FV91_4layers[i]['overall'] = neuronal_density_data_FV91[
+            neuronal_density_data_FV91_5layers[i]['overall'] = neuronal_density_data_FV91[
                 i]['overall']['value'] * gradient + intercept
+
     """
     We build a dictionary containing neuron densities
     (overall and layer-specific) for each area. If there
@@ -743,14 +744,14 @@ def process_raw_data():
     """
 
     # Step 1: Assign an average density to each structural type
-    neuronal_density_list = [{'overall': [], '23': [], '4': [], '5': [],
+    neuronal_density_list = [{'overall': [], '23': [], '3B': [], '4': [], '5': [],
                               '6': []} for i in range(8)]
 
-    for area in list(neuronal_density_data_FV91_4layers.keys()):
+    for area in list(neuronal_density_data_FV91_5layers.keys()):
         category = architecture_completed[area]
-        for key in list(neuronal_density_data_FV91_4layers[area].keys()):
+        for key in list(neuronal_density_data_FV91_5layers[area].keys()):
             neuronal_density_list[category - 1][key].append(float(
-                neuronal_density_data_FV91_4layers[area][key]))
+                neuronal_density_data_FV91_5layers[area][key]))
 
     category_density = {}
 
@@ -769,9 +770,9 @@ def process_raw_data():
     for area in list(architecture_completed.keys()):
         dict_ = {}
         if architecture_completed[area] in range(1, 9, 1):
-            if area in list(neuronal_density_data_FV91_4layers.keys()):
-                for key in list(neuronal_density_data_FV91_4layers[area].keys()):
-                    neuronal_densities[area][key] = neuronal_density_data_FV91_4layers[
+            if area in list(neuronal_density_data_FV91_5layers.keys()):
+                for key in list(neuronal_density_data_FV91_5layers[area].keys()):
+                    neuronal_densities[area][key] = neuronal_density_data_FV91_5layers[
                         area][key]
             else:
                 neuronal_densities[area] = category_density[architecture_completed[area]]
@@ -787,8 +788,7 @@ def process_raw_data():
     for each area.
 
     For areas without experimental data on thicknesses, we
-    use we use a linear fit of total thickness vs.
-    logarithmic overall neuron density.
+    use a linear fit of total thickness vs. logarithmic overall neuron density.
 
     In addition, we use linear fits of relative thicknesses
     vs. logarithmic neuron densities for L4 thickness, and the
@@ -842,7 +842,7 @@ def process_raw_data():
     # for areas for which these are known: mean across studies
     # of fractions of total thickness occupied by each layer
     relative_layer_thicknesses = nested_dict()
-    for area, layer in product(area_list, ['1', '23', '4', '5', '6']):
+    for area, layer in product(area_list, ['1', '23', '3B', '4', '5', '6']):
         if np.isscalar(frac_of_total[area][layer]):
             relative_layer_thicknesses[area][layer] = frac_of_total[area][layer]
         else:
@@ -851,19 +851,23 @@ def process_raw_data():
     relative_layer_thicknesses = relative_layer_thicknesses.to_dict()
 
     # for areas where these data are missing, use mean across areas of
-    # fractions of total thickness occupied by L1, L2/3, by L5, and by L6
+    # fractions of total thickness occupied by L1, L2/3, L3B, by L5, and by L6
     tmp1 = np.array([])
     tmp23 = np.array([])
+    tmp3B = np.array([])
     tmp5 = np.array([])
     tmp6 = np.array([])
     for area in list(relative_layer_thicknesses.keys()):
         tmp1 = np.append(tmp1, relative_layer_thicknesses[area]['1'])
         tmp23 = np.append(tmp23, relative_layer_thicknesses[area]['23'])
+        # tmp3B = np.append(tmp3B, relative_layer_thicknesses[area]['3B'])
+        tmp3B = np.append(tmp3B, np.zeros(len(relative_layer_thicknesses)))
         tmp5 = np.append(tmp5, relative_layer_thicknesses[area]['5'])
         tmp6 = np.append(tmp6, relative_layer_thicknesses[area]['6'])
 
     mean_rel_L1_thickness = np.mean(tmp1[np.isfinite(tmp1)])
     mean_rel_L23_thickness = np.mean(tmp23[np.isfinite(tmp23)])
+    mean_rel_L3B_thickness = np.mean(tmp3B[np.isfinite(tmp3B)])
     mean_rel_L5_thickness = np.mean(tmp5[np.isfinite(tmp5)])
     mean_rel_L6_thickness = np.mean(tmp6[np.isfinite(tmp6)])
 
@@ -872,6 +876,8 @@ def process_raw_data():
             relative_layer_thicknesses[area]['1'] = mean_rel_L1_thickness
         if np.isnan(relative_layer_thicknesses[area]['23']):
             relative_layer_thicknesses[area]['23'] = mean_rel_L23_thickness
+        if np.isnan(relative_layer_thicknesses[area]['3B']):
+            relative_layer_thicknesses[area]['3B'] = mean_rel_L3B_thickness
         if np.isnan(relative_layer_thicknesses[area]['5']):
             relative_layer_thicknesses[area]['5'] = mean_rel_L5_thickness
         if np.isnan(relative_layer_thicknesses[area]['6']):
@@ -920,6 +926,8 @@ def process_raw_data():
     """
     EI_ratio = {'23': num_V1['23E']['neurons'] / (
         num_V1['23E']['neurons'] + num_V1['23I']['neurons']),
+                '3B': num_V1['23E']['neurons'] / (num_V1['23E']['neurons'] +
+                                                  num_V1['23I']['neurons']),
                 '4': num_V1['4E']['neurons'] / (num_V1['4E']['neurons'] +
                                                 num_V1['4I']['neurons']),
                 '5': num_V1['5E']['neurons'] / (num_V1['5E']['neurons'] +
@@ -941,6 +949,10 @@ def process_raw_data():
                                                    nd['23'] * EI_ratio['23'])
         realistic_neuronal_numbers[area]['23I'] = (realistic_neuronal_numbers[area]['23E'] *
                                                    (1. - EI_ratio['23']) / EI_ratio['23'])
+        realistic_neuronal_numbers[area]['3BE'] = (S * ltc['3B'] *
+                                                   nd['3B'] * EI_ratio['3B'])
+        realistic_neuronal_numbers[area]['3BI'] = (realistic_neuronal_numbers[area]['3BE'] *
+                                                   (1. - EI_ratio['3B']) / EI_ratio['3B'])
         realistic_neuronal_numbers[area]['4E'] = (S * ltc['4'] *
                                                   nd['4'] * EI_ratio['4'])
         realistic_neuronal_numbers[area]['4I'] = (realistic_neuronal_numbers[area]['4E'] *
@@ -1373,7 +1385,7 @@ def process_raw_data():
                       'FLN_Data_FV91': FLN_Data_FV91_mapped,
                       'FLN_completed': FLN_completed,
                       'neuronal_densities': neuronal_densities,
-                      'neuronal_density_data_FV91_4layers': neuronal_density_data_FV91_4layers,
+                      'neuronal_density_data_FV91_5layers': neuronal_density_data_FV91_5layers,
                       'realistic_neuronal_numbers': realistic_neuronal_numbers,
                       'total_thicknesses': total_thicknesses,
                       'laminar_thicknesses': laminar_thicknesses_completed,

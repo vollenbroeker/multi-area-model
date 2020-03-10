@@ -92,12 +92,12 @@ def compute_Model_params(out_label='', mode='default'):
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
-    population_list = ['23E', '23I', '4E', '4I', '5E', '5I', '6E', '6I']
+    population_list = ['23E', '23I', '3BE', '3BI', '4E', '4I', '5E', '5I', '6E', '6I']
     termination_layers = {'F': ['4'], 'M': ['1', '23', '5', '6'], 'C': [
         '1', '23', '4', '5', '6'], 'S': ['1', '23']}
     termination_layers2 = {'F': [4], 'M': [
         1, 2, 3, 5, 6], 'C': [1, 2, 3, 4, 5, 6], 'S': [1, 2, 3]}
-    origin_patterns = {'S': ['23E'], 'I': ['5E', '6E'], 'B': ['23E', '5E', '6E']}
+    origin_patterns = {'S': ['3BE'], 'I': ['5E', '6E'], 'B': ['23E', '5E', '6E']}
 
     binzegger_pops = list(binzegger_data.keys())
     binzegger_I_pops = [binzegger_pops[i] for i in range(
