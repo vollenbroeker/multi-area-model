@@ -850,6 +850,10 @@ def process_raw_data():
                 frac_of_total[area][layer][np.isfinite(frac_of_total[area][layer])])
     relative_layer_thicknesses = relative_layer_thicknesses.to_dict()
 
+    import IPython
+    IPython.embed()
+    exit()
+
     # for areas where these data are missing, use mean across areas of
     # fractions of total thickness occupied by L1, L2/3, L3B, by L5, and by L6
     tmp1 = np.array([])
@@ -924,10 +928,10 @@ def process_raw_data():
     We assume a laminar-specific ratio of excitatory
     to inhibitory neurons to be constant across areas.
     """
-    EI_ratio = {'23': num_V1['23E']['neurons'] / (
-        num_V1['23E']['neurons'] + num_V1['23I']['neurons']),
-                '3B': num_V1['23E']['neurons'] / (num_V1['23E']['neurons'] +
-                                                  num_V1['23I']['neurons']),
+    EI_ratio = {'23': num_V1['23aE']['neurons'] / (
+        num_V1['23aE']['neurons'] + num_V1['23aI']['neurons']),
+                '3B': num_V1['3bE']['neurons'] / (num_V1['3bE']['neurons'] +
+                                                  num_V1['3bI']['neurons']),
                 '4': num_V1['4E']['neurons'] / (num_V1['4E']['neurons'] +
                                                 num_V1['4I']['neurons']),
                 '5': num_V1['5E']['neurons'] / (num_V1['5E']['neurons'] +
