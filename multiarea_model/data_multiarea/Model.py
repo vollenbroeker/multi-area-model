@@ -92,7 +92,7 @@ def compute_Model_params(out_label='', mode='default'):
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
-    population_list = ['23E', '23I', '3BE', '3BI', '4E', '4I', '5E', '5I', '6E', '6I']
+    population_list = ['23aE', '23aI', '3bE', '3bI', '4E', '4I', '5E', '5I', '6E', '6I']
     termination_layers = {'F': ['4'], 'M': ['1', '23', '5', '6'], 'C': [
         '1', '23', '4', '5', '6'], 'S': ['1', '23']}
     termination_layers2 = {'F': [4], 'M': [
@@ -491,7 +491,7 @@ def compute_Model_params(out_label='', mode='default'):
     """
 
     # Determine the relative numbers of the 8 populations in Binzegger's data
-    relative_numbers_binzegger = {'23E': 0.0, '23I': 0.0,
+    relative_numbers_binzegger_pre = {'23E': 0.0, '23I': 0.0,
                                   '4E': 0.0, '4I': 0.0,
                                   '5E': 0.0, '5I': 0.0,
                                   '6E': 0.0, '6I': 0.0}
@@ -505,14 +505,15 @@ def compute_Model_params(out_label='', mode='default'):
         cell_layer = re.sub("\D", "", re.sub("\(.*\)", "", cb))
         if cell_layer not in ['', '1']:
             if cb in binzegger_E_pops:
-                relative_numbers_binzegger[
+                relative_numbers_binzegger_pre[
                     cell_layer + 'E'] += binzegger_data[cb]['occurrence'] / s
             if cb in binzegger_I_pops:
-                relative_numbers_binzegger[
+                relative_numbers_binzegger_pre[
                     cell_layer + 'I'] += binzegger_data[cb]['occurrence'] / s
 
     # Determine the relative numbers of the 8 populations in V1
-    relative_numbers_model = {'23E': 0.0, '23I': 0.0,
+    relative_numbers_model = {'23aE': 0.0, '23aI': 0.0,
+                              '3bE': 0.0, '3bI': 0.0,
                               '4E': 0.0, '4I': 0.0,
                               '5E': 0.0, '5I': 0.0,
                               '6E': 0.0, '6I': 0.0}
@@ -520,6 +521,33 @@ def compute_Model_params(out_label='', mode='default'):
     for pop in neuronal_numbers['V1']:
         relative_numbers_model[pop] = neuronal_numbers[
             'V1'][pop] / neuronal_numbers['V1']['total']
+
+    relative_numbers_binzegger = {'23aE': 0.0, '23aI': 0.0,
+                                  '3bE': 0.0, '3bI': 0.0,
+                                  '4E': 0.0, '4I': 0.0,
+                                  '5E': 0.0, '5I': 0.0,
+                                  '6E': 0.0, '6I': 0.0}
+
+    sum_E = relative_numbers_model['23aE'] + relative_numbers_model['3bE']
+    sum_I = relative_numbers_model['23aI'] + relative_numbers_model['3bI']
+    ratio_E = relative_numbers_model['23aE']/sum_E
+    ratio_I = relative_numbers_model['23aI']/sum_I
+
+    altered_pops = ['23aE'. '3bE', '23aI', '3bI' ]
+    for pop in neuronal_numbers['V1']:
+        if pop in altered_pops:
+            if pop == '23aE':
+                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23E']*ratio_E
+            if pop == '3bE':
+                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23E']*(1-ratio_E)
+            if pop == '23aI':
+                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*ratio_I
+            if pop == '3bI':
+                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*(1-ratio_I)
+
+
+        else :
+            relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre[pop]
 
     # Process Binzegger data into conditional probabilities: What is the
     # probability of having a cell body in layer u if a cortico-cortical

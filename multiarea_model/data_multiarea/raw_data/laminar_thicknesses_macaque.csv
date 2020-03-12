@@ -1,6 +1,6 @@
 # Cortical laminar thicknesses from a number of published experimental studies (see supplement of Schmidt et al. (2017) for details)
 
-area	L1	L2	L3	L2/3	L3B	L4A	L4B	L4Calpha	L4Cbeta	L4C	L4	L5	L6	L5/6	total_without_L1	total	source	note
+area	L1	L2	L3	L2/3	L3b	L4A	L4B	L4Calpha	L4Cbeta	L4C	L4	L5	L6	L5/6	total_without_L1	total	source	note
 FEF				710							180			970	1860		Dombrowski et al. (2001) – Quantitative architecture distinguishes prefrontal cortical systems in the rhesus monkey	estimated from Fig. 3. Central FEF=lateral area 8A. Medial FEF=medial area 8A. Lateral FEF= area 45 (Schall et al., 1993)
 7a		175	530	695							150						Medalla and Barbas (2006) Diversity of laminar connections linking periarcuate and lateral intraparietal areas depends on cortical structure Fig. 5C	
 7a																	Blatt et al. (1990) – Visual receptive field organization and cortico-cortical connections of the lateral intraparietal area (area LIP) in the macaque. Has layer indications but no boundaries.	Fig. 12. rough estimates since the layer boundaries were not indicated, just layer labels: L2/3 520 micrometers, L4 140 micrometers
