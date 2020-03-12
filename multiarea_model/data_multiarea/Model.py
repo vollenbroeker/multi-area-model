@@ -662,7 +662,7 @@ def compute_Model_params(out_label='', mode='default'):
         if (source_area in Coco_Data[target_area] and
             source_pop not in ['4I', '4E'] and
             neuronal_numbers[target_area][target_pop] != 0 and
-                source_pop not in ['23I', '4I', '5I', '6I']):
+                source_pop not in ['23aI', '3bI' '4I', '5I', '6I']):
 
             num_source = neuronal_numbers_fullscale[source_area][source_pop]
 
