@@ -482,7 +482,7 @@ def process_raw_data():
     with open(os.path.join(datapath, 'laminar_thicknesses_macaque.csv'), 'rt') as f:
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
-        names = next(myreader)[1:17]
+        names = next(myreader)[1:18]
         for i in range(0, len(names)):
             names[i] = re.sub('L', '', names[i])
             names[i] = re.sub('/', '', names[i])

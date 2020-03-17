@@ -97,7 +97,7 @@ def compute_Model_params(out_label='', mode='default'):
         '1', '23', '4', '5', '6'], 'S': ['1', '23']}
     termination_layers2 = {'F': [4], 'M': [
         1, 2, 3, 5, 6], 'C': [1, 2, 3, 4, 5, 6], 'S': [1, 2, 3]}
-    origin_patterns = {'S': ['3BE'], 'I': ['5E', '6E'], 'B': ['23E', '5E', '6E']}
+    origin_patterns = {'S': ['3bE'], 'I': ['5E', '6E'], 'B': ['23E', '5E', '6E']}
 
     binzegger_pops = list(binzegger_data.keys())
     binzegger_I_pops = [binzegger_pops[i] for i in range(
@@ -292,6 +292,9 @@ def compute_Model_params(out_label='', mode='default'):
         R_area = np.sqrt(Area_surfaces[area] / np.pi)
         C_prime_fullscale_mean[area] = 2 * C0 / Area_surfaces[area] * \
             scipy.integrate.quad(integrand, 0, 2 * R_area, args=(R_area, sigma))[0]
+    # import IPython
+    # IPython.embed()
+    # exit()
 
     Indegree_prime_fullscale = nested_dict()
     for area, target_pop, source_pop in product(area_list, population_list, population_list):
@@ -533,7 +536,7 @@ def compute_Model_params(out_label='', mode='default'):
     ratio_E = relative_numbers_model['23aE']/sum_E
     ratio_I = relative_numbers_model['23aI']/sum_I
 
-    altered_pops = ['23aE'. '3bE', '23aI', '3bI' ]
+    altered_pops = ['23aE', '3bE', '23aI', '3bI']
     for pop in neuronal_numbers['V1']:
         if pop in altered_pops:
             if pop == '23aE':
@@ -544,9 +547,7 @@ def compute_Model_params(out_label='', mode='default'):
                 relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*ratio_I
             if pop == '3bI':
                 relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*(1-ratio_I)
-
-
-        else :
+        else:
             relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre[pop]
 
     # Process Binzegger data into conditional probabilities: What is the
