@@ -1,7 +1,7 @@
 # Absolute path of repository
-base_path = "/home/vollenbroeker/repositories/multi-area-model/"
+base_path ="/home/kurth/work/repositories/projects/multi-area-model/"
 # Place to store simulations
-data_path = "/home/vollenbroeker/repositories/multi-area-model/simulations/"
+data_path = "/home/kurth/work/repositories/projects/multi-area-modelhome/simulations/"
 # Template for job scripts
 jobscript_template = '''
 # Instruction for the queuing system
