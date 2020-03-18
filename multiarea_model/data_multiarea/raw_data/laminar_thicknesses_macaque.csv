@@ -8,7 +8,7 @@ STPp																			see STP data from Rozzi et al.
 CITv																			Weller and Steele (1992) Fig. 17 has layer indications but no boundaries for CIT
 PITv																			Take from TEO? Weller and Steele (1992) Fig. 3D has layer indications but no boundaries for caudal IT
 VP																			schematically shown in Fig. 6 of Maunsell and Van Essen (1983) – The connections of the middle temporal visual area (MT) and their relationship to a cortical hierarchy in the macaque monkey
-V3A	200	0	520	520								120						Nakamura et al. (2001) – From three-dimensional space vision... Fig. 5B	
+V3A	200	0	520	520	328	192						120						Nakamura et al. (2001) – From three-dimensional space vision... Fig. 5B	
 V3A												155			135			Anderson and Martin (2005) – Connection from cortical area V2 to V3A in macaque monkey, Fig. 2	For rough approximation, see also Ungerleider and Desimone (1986) Fig. 2
 TF				480								70	190					Suzuki and Amaral (2003) – Perirhinal and parahippocampal cortices of the macaque monkey: cytoarchitectonic and chemoarchitectonic organization	estimated from Fig. 14. Where L6 ends is not entirely clear.
 LIP		170	520	690								155						Medalla and Barbas (2006) Diversity of laminar connections linking periarcuate and lateral intraparietal areas depends on cortical structure, average of Fig. 5A & B	See also Cavada and Goldman-Rakic, Multiple visual areas in the posterior parietal cortex of primates, Fig. 3
@@ -19,22 +19,22 @@ MSTd																			see MST data from Rozzi et al.
 DP																		Andersen et al. (1990) Corticocortical Connections of Anatomically and Physiologically Defined Subdivisions Within the Inferior Parietal Lobule Fig. 7A has layer boundaries for DP but without a scale bar	
 STPa																			see STP data from Rozzi et al.
 MSTl																			see MST data from Rozzi et al.
-MT	225			1060								250	210	225		1745	1970	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	Estimated from Fig. 8; layer boundaries drawn continuously
-MT				840								160	240					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 3. Only L4 indicated by name; the other layers by dashes. However, layer names are indicated in the adjacent figure.
+MT	225			1060	668	392						250	210	225		1745	1970	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	Estimated from Fig. 8; layer boundaries drawn continuously
+MT				840	529	311						160	240					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 3. Only L4 indicated by name; the other layers by dashes. However, layer names are indicated in the adjacent figure.
 46	164	141	572	713								164	234	309		1420	1584	Eggan & Lewis (2007) – Immunocytochemical distribution of the cannabinoid CB1 receptor in the primate neocortex: a regional and laminar analysis	Fig. 1 (used 1A. 1B and C show laminar thicknesses of the same areas, which are similar but not identical to 1A )
 46				660								170			550	1380		Dombrowski et al. (2001) – Quantitative architecture distinguishes prefrontal cortical systems in the rhesus monkey	estimated from Fig. 3
 AITv																			
 VIP																			See Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca Fig. 12. for rough approximation, see also Ungerleider and Desimone (1986) Fig. 2
 PITd																			Weller and Steele (1992) Fig. 3D has layer indications but no boundaries for caudal IT
 VOT																			take from TEO?
-V1	122.9			396.9			127.1	211.4			247.5	586	226.3	260.2		1469.4	1592.3	O'Kusky and Colonnier (1982)	Table 3;  adult values
-V1	100			340								450	130	140		1060	1160	Rakic et al. (1991)  A novel cytoarchitectonic area induced experimentally within the primate visual cortex	Control from Table 2. the monkey was 3 months old
-V2	60			365								125	185	160		835	895	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	 Fig. 2
-V2	110			470								210	150	180		1010	1120	Rakic et al. (1991) A novel cytoarchitectonic area induced experimentally within the primate visual cortex	Control from Table 2. The monkey was 3 months old; see Hendry, Fuchs, deBlas & Jones. J. Neurosci. 1990 Fig. 3 for adult
+V1	122.9			396.9	178.6	218.3	127.1	211.4			247.5	586	226.3	260.2		1469.4	1592.3	O'Kusky and Colonnier (1982)	Table 3;  adult values
+V1	100			340	153	187						450	130	140		1060	1160	Rakic et al. (1991)  A novel cytoarchitectonic area induced experimentally within the primate visual cortex	Control from Table 2. the monkey was 3 months old
+V2	60			365	197	168						125	185	160		835	895	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	 Fig. 2
+V2	110			470	254	216						210	150	180		1010	1120	Rakic et al. (1991) A novel cytoarchitectonic area induced experimentally within the primate visual cortex	Control from Table 2. The monkey was 3 months old; see Hendry, Fuchs, deBlas & Jones. J. Neurosci. 1990 Fig. 3 for adult
 V2																		Levitt et al. (1995) Connections between the pulvinar complex and cytochrome oxidase-defined compartments in visual area V2 of macaque monkey, Fig. 4A	
-V3	200			1250								250	210	250		1960	2160	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	Estimated from Fig. 8; layer boundaries drawn continuously
-V3	195			285								265			250	800	995	Angelucci et al. (2002) – Circuits for local and global signal integration in primary visual cortex	Fig. 4
-V4	150	150	700	850								200	200	200		1450	1600	Rockland et al. (1992) – Configuration, in serial reconstruction, of individual axons projecting from area V2 to V4 in the macaque monkey	From text on p. 355. See also Anderson et al. (2011), Fig. 2; Distler et al. (1993) Fig. 6C
+V3	200			1250	675	575						250	210	250		1960	2160	Markov et al. (2013) Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex	Estimated from Fig. 8; layer boundaries drawn continuously
+V3	195			285	154	131						265			250	800	995	Angelucci et al. (2002) – Circuits for local and global signal integration in primary visual cortex	Fig. 4
+V4	150	150	700	850	536	314						200	200	200		1450	1600	Rockland et al. (1992) – Configuration, in serial reconstruction, of individual axons projecting from area V2 to V4 in the macaque monkey	From text on p. 355. See also Anderson et al. (2011), Fig. 2; Distler et al. (1993) Fig. 6C
 TH				440								0	170					Suzuki and Amaral (2003) – Perirhinal and parahippocampal cortices of the macaque monkey: cytoarchitectonic and chemoarchitectonic organization	estimated from Fig. 14. Where L6 ends is not entirely clear.
 PIP																			
 FST																			
@@ -45,9 +45,9 @@ TE				625								145	131					Suzuki and Amaral (2003) – Perirhinal and parahip
 MST				910								210	190					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 3. Only L4 indicated by name; the other layers by dashes. However, layer names are indicated in the adjacent figure.
 MST																		Blatt et al. (1990) – Visual receptive field organization and cortico-cortical connections of the lateral intraparietal area (area LIP) in the macaque	Fig. 10. rough estimates since the layer boundaries were not indicated, just layer labels: L2/3 730 micrometers, L4 210 micrometers, L5 180 micrometers
 PG				820								170	220	390		1600		Gregoriou et al. (2006) – Architectonic organization of the inferior parietal convexity of the macaque monkey	corresponds roughly to 7a; estimated from Fig. 4
-V4				760								150	390					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 4B
+V4				760	479	281						150	390					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 4B
 TPOc				850								225	275					Cusick et al. (1995) – Chemoarchitectonics and corticocortical terminations within the superior temporal sulcus of the rhesus monkey: evidence for subdivisions of superior temporal polysensory cortex	estimated from Fig. 5. Appears to correspond approximately to STPp.
-V1	120			490			110	200	150	110		570	220	120		1400	1520	Felleman et al. (1997) – Cortical connections of area V3 and VP of macaque monkey extrastriate visual cortex	estimated from Fig. 7
+V1	120			490	221	269	110	200	150	110		570	220	120		1400	1520	Felleman et al. (1997) – Cortical connections of area V3 and VP of macaque monkey extrastriate visual cortex	estimated from Fig. 7
 4	140			880								0	540					Preuss and Goldman-Rakic (1991) – Myelo- and cytoarchitecture of the granular frontal cortex and surrounding regions in the strepsirhine primate Galago and the anthropoid primate Macaca	estimated from Fig. 9. minimal thickness of L6 can also be taken from here
 6D	110			780								0	720					Preuss and Goldman-Rakic (1991) – Myelo- and cytoarchitecture of the granular frontal cortex and surrounding regions in the strepsirhine primate Galago and the anthropoid primate Macaca	estimated from Fig. 9. minimal thickness of L6 can also be taken from here
 6M	180			640								150	380					Preuss and Goldman-Rakic (1991) – Myelo- and cytoarchitecture of the granular frontal cortex and surrounding regions in the strepsirhine primate Galago and the anthropoid primate Macaca	estimated from Fig. 9. minimal thickness of L6 can also be taken from here
@@ -123,7 +123,7 @@ Tpt																		Preuss and Goldman-Rakic (1991) – Architectonics of the p
 Ipa																		Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 14
 Tem																		Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 14
 Tec																		Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 14
-MT	140			640								210	240	270		1360	1500	Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 18
+MT	140			640	403	237						210	240	270		1360	1500	Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 18
 TF	270			760								240			700	1700	1970	Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 18
 TH	180			420								150	370	170		1110	1290	Preuss and Goldman-Rakic (1991) – Architectonics of the parietal and temporal association cortex in the strepsirhine primate Galago compared to the anthropoid primate Macaca	Fig. 18
 V6	162	152	466	618								152	155					Passarelli et al. (2011) – Cortical connections of area V6Av in the macaque: a visual-input node to the eye/hand coordination system	Fig. 4. Area definition according to Galletti. Could use average of V6, V6Av and V6Ad for PO?
@@ -132,7 +132,7 @@ V6Ad	114	162	476	638								203	166	410	576	1417	1531	Passarelli et al. (2011) �
 46	130			425								85			350	860	990	Petrides and Pandya (1999) – Dorsolateral prefrontal cortex: comparative cytoarchitectonic analysis in the human and the macaque brain and corticocortical connection patterns	Fig. 7
 7m																		Eggan & Lewis (2007) – Immunocytochemical distribution of the cannabinoid CB1 receptor in the primate neocortex: a regional and laminar analysis	Fig. 4
 FST?																		Eggan & Lewis (2007) – Immunocytochemical distribution of the cannabinoid CB1 receptor in the primate neocortex: a regional and laminar analysis	Fig. 5C 
-V1	59	173	222	395			62	155	150	83		450	173	181		1200	1259	Eggan & Lewis (2007) – Immunocytochemical distribution of the cannabinoid CB1 receptor in the primate neocortex: a regional and laminar analysis	Fig. 5B
+V1	59	173	222	395	178	217	62	155	150	83		450	173	181		1200	1259	Eggan & Lewis (2007) – Immunocytochemical distribution of the cannabinoid CB1 receptor in the primate neocortex: a regional and laminar analysis	Fig. 5B
 upper bank of rostral STS																		Saleem et al. (2000) – Connections between anterior inferotemporal cortex and superior temporal sulcus regions in the macaque monkey	This may correspond to STPa. Fig. 6: camera lucida drawings with layer boundaries; Fig. 7: layer indications without boundaries
 lower bank of middle STS																		Saleem et al. (2000) – Connections between anterior inferotemporal cortex and superior temporal sulcus regions in the macaque monkey	Fig. 6: camera lucida drawings with layer boundaries; Fig. 7: layer indications without boundaries
 lower bank of rostral STS																		Saleem et al. (2000) – Connections between anterior inferotemporal cortex and superior temporal sulcus regions in the macaque monkey	Fig. 7, layer indications without boundaries
