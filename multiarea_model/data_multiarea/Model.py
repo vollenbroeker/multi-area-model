@@ -76,6 +76,8 @@ def compute_Model_params(out_label='', mode='default'):
     Intra_areal = raw_data['Intrinsic_Connectivity']
     total_thicknesses = processed_data['total_thicknesses']
     laminar_thicknesses = processed_data['laminar_thicknesses']
+    #import IPython
+    #IPython.embed()
     Intrinsic_FLN_Data = raw_data['Intrinsic_FLN_Data']
     neuronal_numbers_fullscale = processed_data['realistic_neuronal_numbers']
     num_V1 = raw_data['num_V1']
@@ -93,12 +95,13 @@ def compute_Model_params(out_label='', mode='default'):
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
     population_list = ['23aE', '23aI', '3bE', '3bI', '4E', '4I', '5E', '5I', '6E', '6I']
-    termination_layers = {'F': ['4'], 'M': ['1', '23', '5', '6'], 'C': [
-        '1', '23', '4', '5', '6'], 'S': ['1', '23']}
+    termination_layers = {'F': ['4'], 'M': ['1', '23a','3b', '5', '6'], 'C': [
+        '1', '23a', '3b', '4', '5', '6'], 'S': ['1', '23a', '3b']}
     termination_layers2 = {'F': [4], 'M': [
         1, 2, 3, 5, 6], 'C': [1, 2, 3, 4, 5, 6], 'S': [1, 2, 3]}
+    termination_markov2 = {'E' : [4]}
     termination_markov = {'E' : ['4']}
-    origin_patterns = {'S': ['3bE'], 'I': ['23aE', '5E', '6E'], 'B': ['23aE', '5E', '6E']}
+    origin_patterns = {'S': ['3bE'], 'I': ['5E', '6E'], 'B': ['23aE', '5E', '6E']}
     origin_markov = {'E' : ['3bE']}
 
     binzegger_pops = list(binzegger_data.keys())
@@ -294,9 +297,6 @@ def compute_Model_params(out_label='', mode='default'):
         R_area = np.sqrt(Area_surfaces[area] / np.pi)
         C_prime_fullscale_mean[area] = 2 * C0 / Area_surfaces[area] * \
             scipy.integrate.quad(integrand, 0, 2 * R_area, args=(R_area, sigma))[0]
-    # import IPython
-    # IPython.embed()
-    # exit()
 
     Indegree_prime_fullscale = nested_dict()
     for area, target_pop, source_pop in product(area_list, population_list, population_list):
@@ -647,6 +647,11 @@ def compute_Model_params(out_label='', mode='default'):
                 v['3bI'] = v['23I']*(1-ratio_I)
                 v.pop('23I')
 
+    for area, synapse_to_cell_body_instance in synapse_to_cell_body.items():
+        synapse_to_cell_body_instance['23a'] = synapse_to_cell_body_instance['23']
+        synapse_to_cell_body_instance['3b'] = synapse_to_cell_body_instance['23']
+        synapse_to_cell_body_instance.pop('23')
+
     def num_CC_synapses(target_area, target_pop, source_area, source_pop):
         """
         Compute number of synapses between two populations in different areas
@@ -669,12 +674,16 @@ def compute_Model_params(out_label='', mode='default'):
         """
 
         Nsyn = 0.0
-
+        print('########################')
+        print(source_area)
+        print(source_pop)
+        print(target_area)
+        print(target_pop)
         # Test if the connection exists.
         if (source_area in Coco_Data[target_area] and
-            source_pop not in ['4I', '4E'] and
+            source_pop not in ['4I', '4E', '23aE'] and
             neuronal_numbers[target_area][target_pop] != 0 and
-                source_pop not in ['23aI', '3bI' '4I', '5I', '6I']):
+                source_pop not in ['23aI', '3bI', '4I', '5I', '6I']):
 
             num_source = neuronal_numbers_fullscale[source_area][source_pop]
 
@@ -740,8 +749,6 @@ def compute_Model_params(out_label='', mode='default'):
             if Coco_Data[target_area][source_area]['target_pattern'] is not None:
                 tp = np.array(Coco_Data[target_area][source_area][
                               'target_pattern'], dtype=np.float)
-                #import IPython
-                #IPython.embed()
                 # If there is a '?' (=-1) in the data, check if this layer is in
                 # the termination pattern induced by hierarchy and insert a 2 if
                 # yes
@@ -753,7 +760,7 @@ def compute_Model_params(out_label='', mode='default'):
                         T_hierarchy = termination_layers2['M']
                     elif SLN_Data[target_area][source_area] > 0.65:
                         #T_hierarchy = termination_layers2['F']
-                        T_hierarchy = termination_markov['E']
+                        T_hierarchy = termination_markov2['E']
                     for l in T_hierarchy:
                         if tp[l - 1] == -1:
                             tp[l - 1] = 2
@@ -764,15 +771,13 @@ def compute_Model_params(out_label='', mode='default'):
                 Nsyn = 0.0
                 su = 0.
                 for i in range(len(T)):
+                    print(T)
                     if T[i] in [2, 3]:
-                        syn_layer = '23'
+                        syn_layer = '23a'
                     else:
                         syn_layer = str(T[i])
                     Z = 10 ** tp[np.where(tp > 0.)[0]][i] / p_T
-                    print(source_area)
-                    print(source_pop)
-                    print(target_area)
-                    print(target_pop)
+
                     if target_pop in synapse_to_cell_body[target_area][syn_layer]:
                         Nsyn += synapse_to_cell_body[target_area][syn_layer][
                             target_pop] * Nsyn_tot * FLN_BA * X * Y * Z
@@ -945,7 +950,8 @@ def compute_Model_params(out_label='', mode='default'):
                     'external'] = fac_nu_ext_6E * synapse_numbers[target_area][target_pop][
                         'external']['external']
 
-    synapse_numbers['TH']['23E']['external']['external'] *= fac_nu_ext_TH
+    synapse_numbers['TH']['23aE']['external']['external'] *= fac_nu_ext_TH
+    #synapse_numbers['TH']['3bE']['external']['external'] *= fac_nu_ext_TH
     synapse_numbers['TH']['5E']['external']['external'] *= fac_nu_ext_TH
 
     """
@@ -1053,7 +1059,7 @@ def compute_Model_params(out_label='', mode='default'):
                                      'json'))), 'w') as f:
         json.dump(collected_data, f)
 
-    import IPython
-    IPython.embed()
+    #import IPython
+    #IPython.embed()
 if __name__ == '__main__':
     compute_Model_params()

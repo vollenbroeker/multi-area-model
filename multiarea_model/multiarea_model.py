@@ -129,9 +129,12 @@ class MultiAreaModel:
         self.area_list = complete_area_list
         self.distances = dat['distances']
 
+
         ind, inda, out, outa = load_degree_data(tmp_data_fn)
         # If K_stable is specified in the params, load the stabilized matrix
         # TODO: Extend this by calling the stabilization method
+        import IPython
+        IPython.embed()
         if self.params['connection_params']['K_stable'] is None:
             self.K = ind
         else:
@@ -143,6 +146,8 @@ class MultiAreaModel:
             K_stable = np.load(self.params['connection_params']['K_stable'])
             ext = {area: {pop: ind[area][pop]['external'] for pop in
                           self.structure['V1']} for area in self.area_list}
+            import IPython
+            IPython.embed()
             self.K = matrix_to_dict(
                 K_stable, self.area_list, self.structure, external=ext)
             self.synapses = indegree_to_synapse_numbers(self.K, self.N)
@@ -166,6 +171,7 @@ class MultiAreaModel:
                                                                  ('params',
                                                                   'connection_params',
                                                                   'replace_cc_input_source')])
+
 
         if isinstance(network_spec, dict):
             parameter_fn = os.path.join(base_path,
