@@ -211,6 +211,9 @@ def matrix_to_dict(m, area_list, structure, external=None):
         mask = create_mask(
             structure, target_areas=[area], source_areas=[area2], external=False)
         if external is not None:
+            #import IPython
+            #IPython.embed()
+            #exit()
             x = m[mask[:, :-1]]
         else:
             x = m[mask]

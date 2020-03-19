@@ -22,7 +22,7 @@ complete_area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', '
                       'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                       'STPa', '46', 'AITd', 'TH']
 
-population_list = ['23E', '23I', '4E', '4I', '5E', '5I', '6E', '6I']
+population_list = ['23aE', '23aI','3bE', '3bI', '4E', '4I', '5E', '5I', '6E', '6I']
 
 f1 = open(os.path.join(base_path, 'multiarea_model/data_multiarea',
                        'viscortex_raw_data.json'), 'r')
