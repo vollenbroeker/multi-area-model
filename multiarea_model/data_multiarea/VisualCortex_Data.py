@@ -860,8 +860,7 @@ def process_raw_data():
     for area in list(relative_layer_thicknesses.keys()):
         tmp1 = np.append(tmp1, relative_layer_thicknesses[area]['1'])
         tmp23a = np.append(tmp23a, relative_layer_thicknesses[area]['23a'])
-        # tmp3b = np.append(tmp3b, relative_layer_thicknesses[area]['3b'])
-        tmp3b = np.append(tmp3b, np.zeros(len(relative_layer_thicknesses)))
+        tmp3b = np.append(tmp3b, relative_layer_thicknesses[area]['3b'])
         tmp5 = np.append(tmp5, relative_layer_thicknesses[area]['5'])
         tmp6 = np.append(tmp6, relative_layer_thicknesses[area]['6'])
 
