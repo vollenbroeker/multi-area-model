@@ -97,7 +97,9 @@ def compute_Model_params(out_label='', mode='default'):
         '1', '23', '4', '5', '6'], 'S': ['1', '23']}
     termination_layers2 = {'F': [4], 'M': [
         1, 2, 3, 5, 6], 'C': [1, 2, 3, 4, 5, 6], 'S': [1, 2, 3]}
-    origin_patterns = {'S': ['3bE'], 'I': ['5E', '6E'], 'B': ['23E', '5E', '6E']}
+    termination_markov = {'E' : ['4']}
+    origin_patterns = {'S': ['3bE'], 'I': ['23aE', '5E', '6E'], 'B': ['23aE', '5E', '6E']}
+    origin_markov = {'E' : ['3bE']}
 
     binzegger_pops = list(binzegger_data.keys())
     binzegger_I_pops = [binzegger_pops[i] for i in range(
@@ -494,7 +496,7 @@ def compute_Model_params(out_label='', mode='default'):
     """
 
     # Determine the relative numbers of the 8 populations in Binzegger's data
-    relative_numbers_binzegger_pre = {'23E': 0.0, '23I': 0.0,
+    relative_numbers_binzegger = {'23E': 0.0, '23I': 0.0,
                                   '4E': 0.0, '4I': 0.0,
                                   '5E': 0.0, '5I': 0.0,
                                   '6E': 0.0, '6I': 0.0}
@@ -508,47 +510,42 @@ def compute_Model_params(out_label='', mode='default'):
         cell_layer = re.sub("\D", "", re.sub("\(.*\)", "", cb))
         if cell_layer not in ['', '1']:
             if cb in binzegger_E_pops:
-                relative_numbers_binzegger_pre[
+                relative_numbers_binzegger[
                     cell_layer + 'E'] += binzegger_data[cb]['occurrence'] / s
             if cb in binzegger_I_pops:
-                relative_numbers_binzegger_pre[
+                relative_numbers_binzegger[
                     cell_layer + 'I'] += binzegger_data[cb]['occurrence'] / s
 
     # Determine the relative numbers of the 8 populations in V1
-    relative_numbers_model = {'23aE': 0.0, '23aI': 0.0,
+    relative_numbers_model_new = {'23aE': 0.0, '23aI': 0.0,
                               '3bE': 0.0, '3bI': 0.0,
                               '4E': 0.0, '4I': 0.0,
                               '5E': 0.0, '5I': 0.0,
                               '6E': 0.0, '6I': 0.0}
 
     for pop in neuronal_numbers['V1']:
-        relative_numbers_model[pop] = neuronal_numbers[
+        relative_numbers_model_new[pop] = neuronal_numbers[
             'V1'][pop] / neuronal_numbers['V1']['total']
 
-    relative_numbers_binzegger = {'23aE': 0.0, '23aI': 0.0,
-                                  '3bE': 0.0, '3bI': 0.0,
-                                  '4E': 0.0, '4I': 0.0,
-                                  '5E': 0.0, '5I': 0.0,
-                                  '6E': 0.0, '6I': 0.0}
+    sum_E = relative_numbers_model_new['23aE'] + relative_numbers_model_new['3bE']
+    sum_I = relative_numbers_model_new['23aI'] + relative_numbers_model_new['3bI']
+    ratio_E = relative_numbers_model_new['23aE']/sum_E
+    ratio_I = relative_numbers_model_new['23aI']/sum_I
 
-    sum_E = relative_numbers_model['23aE'] + relative_numbers_model['3bE']
-    sum_I = relative_numbers_model['23aI'] + relative_numbers_model['3bI']
-    ratio_E = relative_numbers_model['23aE']/sum_E
-    ratio_I = relative_numbers_model['23aI']/sum_I
 
-    altered_pops = ['23aE', '3bE', '23aI', '3bI']
-    for pop in neuronal_numbers['V1']:
-        if pop in altered_pops:
-            if pop == '23aE':
-                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23E']*ratio_E
-            if pop == '3bE':
-                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23E']*(1-ratio_E)
-            if pop == '23aI':
-                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*ratio_I
-            if pop == '3bI':
-                relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre['23I']*(1-ratio_I)
-        else:
-            relative_numbers_binzegger[pop] = relative_numbers_binzegger_pre[pop]
+    relative_numbers_model = {'23E': 0.0, '23I': 0.0,
+                              '4E': 0.0, '4I': 0.0,
+                              '5E': 0.0, '5I': 0.0,
+                              '6E': 0.0, '6I': 0.0}
+
+    relative_numbers_model['23E'] = sum_E
+    relative_numbers_model['23I'] = sum_I
+    relative_numbers_model['4E'] = relative_numbers_model_new['4E']
+    relative_numbers_model['4I'] = relative_numbers_model_new['4I']
+    relative_numbers_model['5E'] = relative_numbers_model_new['5E']
+    relative_numbers_model['5I'] = relative_numbers_model_new['5I']
+    relative_numbers_model['6E'] = relative_numbers_model_new['6E']
+    relative_numbers_model['6I'] = relative_numbers_model_new['6I']
 
     # Process Binzegger data into conditional probabilities: What is the
     # probability of having a cell body in layer u if a cortico-cortical
@@ -600,6 +597,7 @@ def compute_Model_params(out_label='', mode='default'):
                         synapse_to_cell_body_basis.update(
                             {v: {i: cond_prob}})
 
+
     # Make synapse_to_cell_body area-specific to account for
     # missing layers in some areas (area TH)
     synapse_to_cell_body = {}
@@ -608,9 +606,9 @@ def compute_Model_params(out_label='', mode='default'):
 
     for layer in synapse_to_cell_body['TH']:
         l = 0.
-        for pop in ['23E', '5E', '6E']:
+        for pop in ['23aE','3bE',  '5E', '6E']:
             l += laminar_thicknesses['TH'][pop[0:-1]]
-        for pop in ['23E', '5E', '6E']:
+        for pop in ['23aE', '3bE' ,'5E', '6E']:
             if '4E' in synapse_to_cell_body['TH'][layer]:
                 if pop in synapse_to_cell_body['TH'][layer]:
                     synapse_to_cell_body['TH'][layer][pop] += synapse_to_cell_body[
@@ -619,9 +617,9 @@ def compute_Model_params(out_label='', mode='default'):
                     synapse_to_cell_body['TH'][layer][pop] = synapse_to_cell_body[
                         'TH'][layer]['4E'] * laminar_thicknesses['TH'][pop[0:-1]] / l
         l = 0.
-        for pop in ['23I', '5I', '6I']:
+        for pop in ['23aI', '3bI', '5I', '6I']:
             l += laminar_thicknesses['TH'][pop[0:-1]]
-        for pop in ['23I', '5I', '6I']:
+        for pop in ['23aI', '3bI', '5I', '6I']:
             if '4I' in synapse_to_cell_body['TH'][layer]:
                 if pop in synapse_to_cell_body['TH'][layer]:
                     synapse_to_cell_body['TH'][layer][pop] += synapse_to_cell_body[
@@ -635,6 +633,19 @@ def compute_Model_params(out_label='', mode='default'):
             del synapse_to_cell_body['TH'][layer]['4E']
         if '4I' in synapse_to_cell_body['TH'][layer]:
             del synapse_to_cell_body['TH'][layer]['4I']
+
+    # adapt synapse_to_cell_bodies to take L23a, L3b into accout
+    for area, synapse_to_cell_body_instance in synapse_to_cell_body.items():
+        for key, v in synapse_to_cell_body_instance.items():
+            if '23E'in v.keys():
+                v['23aE'] = v['23E']*ratio_E
+                v['3bE'] = v['23E']*(1-ratio_E)
+                v.pop('23E')
+
+            if '23I' in v.keys():
+                v['23aI'] = v['23I']*ratio_I
+                v['3bI'] = v['23I']*(1-ratio_I)
+                v.pop('23I')
 
     def num_CC_synapses(target_area, target_pop, source_area, source_pop):
         """
@@ -729,7 +740,8 @@ def compute_Model_params(out_label='', mode='default'):
             if Coco_Data[target_area][source_area]['target_pattern'] is not None:
                 tp = np.array(Coco_Data[target_area][source_area][
                               'target_pattern'], dtype=np.float)
-
+                #import IPython
+                #IPython.embed()
                 # If there is a '?' (=-1) in the data, check if this layer is in
                 # the termination pattern induced by hierarchy and insert a 2 if
                 # yes
@@ -740,7 +752,8 @@ def compute_Model_params(out_label='', mode='default'):
                     elif SLN_Data[target_area][source_area] < 0.35:
                         T_hierarchy = termination_layers2['M']
                     elif SLN_Data[target_area][source_area] > 0.65:
-                        T_hierarchy = termination_layers2['F']
+                        #T_hierarchy = termination_layers2['F']
+                        T_hierarchy = termination_markov['E']
                     for l in T_hierarchy:
                         if tp[l - 1] == -1:
                             tp[l - 1] = 2
@@ -756,6 +769,10 @@ def compute_Model_params(out_label='', mode='default'):
                     else:
                         syn_layer = str(T[i])
                     Z = 10 ** tp[np.where(tp > 0.)[0]][i] / p_T
+                    print(source_area)
+                    print(source_pop)
+                    print(target_area)
+                    print(target_pop)
                     if target_pop in synapse_to_cell_body[target_area][syn_layer]:
                         Nsyn += synapse_to_cell_body[target_area][syn_layer][
                             target_pop] * Nsyn_tot * FLN_BA * X * Y * Z
@@ -770,7 +787,8 @@ def compute_Model_params(out_label='', mode='default'):
                 elif SLN_Data[target_area][source_area] < 0.35:
                     T = termination_layers['M']
                 elif SLN_Data[target_area][source_area] > 0.65:
-                    T = termination_layers['F']
+                    #T = termination_layers['F']
+                    T = termination_markov['E']
 
                 p_T = 0.0
                 for i in T:
@@ -971,8 +989,11 @@ def compute_Model_params(out_label='', mode='default'):
 
     # Apply specific weight for intra_areal 4E-->23E connections
     for area in area_list:
-        synapse_weights_mean[area]['23E'][area]['4E'] = PSP_e_23_4 * PSC_e_over_PSP_e
-        synapse_weights_sd[area]['23E'][area]['4E'] = (PSC_rel_sd_normal * PSP_e_23_4
+        synapse_weights_mean[area]['23aE'][area]['4E'] = PSP_e_23_4 * PSC_e_over_PSP_e
+        synapse_weights_mean[area]['3bE'][area]['4E'] = PSP_e_23_4 * PSC_e_over_PSP_e
+        synapse_weights_sd[area]['23aE'][area]['4E'] = (PSC_rel_sd_normal * PSP_e_23_4
+                                                       * PSC_e_over_PSP_e)
+        synapse_weights_sd[area]['3bE'][area]['4E'] = (PSC_rel_sd_normal * PSP_e_23_4
                                                        * PSC_e_over_PSP_e)
 
     # Apply cc_weights_factor for all CC connections
@@ -1032,6 +1053,7 @@ def compute_Model_params(out_label='', mode='default'):
                                      'json'))), 'w') as f:
         json.dump(collected_data, f)
 
-
+    import IPython
+    IPython.embed()
 if __name__ == '__main__':
     compute_Model_params()

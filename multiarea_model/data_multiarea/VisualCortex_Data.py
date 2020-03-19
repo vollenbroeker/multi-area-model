@@ -1335,7 +1335,7 @@ def process_raw_data():
         else:
             res = integrate.quad(integrand, -1000., x, args=(0., 1.))[0]
         return res
-
+    '''
     # Call R script to perform SLN fit
     try:
         proc = subprocess.Popen(["Rscript",
@@ -1347,8 +1347,8 @@ def process_raw_data():
                      float(out.split('\n')[1].split(' ')[3])]
     except OSError:
         print("No R installation, taking hard-coded SLN fit parameters.")
-        R_fit = [-0.1516142, -1.5343200]
-
+    '''
+    R_fit = [-0.1516142, -1.5343200]
     """
     4. Fill missing data with fitted values.
     """
