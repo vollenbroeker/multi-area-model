@@ -1,4 +1,4 @@
-# Data from Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit: Relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785–806. https://doi.org/10.1093/cercor/bhs358 (L3B assumed to be equalli connected as L23)
+# Data from Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit: Relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785–806. https://doi.org/10.1093/cercor/bhs358 (L3b assumed to be equally connected as L23)
 
 	23aE	23aI	3bE	3bI	4E	4I	5E	5I	6E	6I	Th
 23aE	0.101	0.169	0.101	0.169	0.044	0.082	0.032	0	0.008	0	0

@@ -86,8 +86,6 @@ from config import base_path
 from nested_dict import nested_dict
 from scipy import stats
 from scipy import integrate
-from pprint import pprint
-
 
 def process_raw_data():
     """
@@ -764,7 +762,7 @@ def process_raw_data():
                 dict_[i] = np.mean(neuronal_density_list[x][i])
             category_density[x + 1] = dict_
 
-    # Step 2: For areas with out experimental data,
+    # Step 2: For areas without experimental data,
     # assign the average density values of their structural type
     neuronal_densities = nested_dict()
     for area in list(architecture_completed.keys()):
@@ -792,7 +790,7 @@ def process_raw_data():
 
     In addition, we use linear fits of relative thicknesses
     vs. logarithmic neuron densities for L4 thickness, and the
-    arithmetic mean of the data for L1, L2/3, L5 and L6.
+    arithmetic mean of the data for L1, L2/3a, L3b, L5 and L6.
 
     Finally, we convert the relative laminar thicknesses
     into absolute values by multiplying with the total thickness.
@@ -923,8 +921,8 @@ def process_raw_data():
     We assume a laminar-specific ratio of excitatory
     to inhibitory neurons to be constant across areas.
     """
-    EI_ratio = {'23a': num_V1['23aE']['neurons'] / (
-        num_V1['23aE']['neurons'] + num_V1['23aI']['neurons']),
+    EI_ratio = {'23a': num_V1['23aE']['neurons'] / (num_V1['23aE']['neurons'] +
+                                                    num_V1['23aI']['neurons']),
                 '3b': num_V1['3bE']['neurons'] / (num_V1['3bE']['neurons'] +
                                                   num_V1['3bI']['neurons']),
                 '4': num_V1['4E']['neurons'] / (num_V1['4E']['neurons'] +
