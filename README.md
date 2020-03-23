@@ -3,8 +3,8 @@
 
 ![Model overview](model_construction.png)
 
-This code implements the spiking network model of macaque visual cortex developed
-at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich.
+This codes implements an extension of the multi-area-model of macaque visual cortex, by a counterstream architecture in the supragranular layers 2 and 3. This implementation was motivated by the finding, that retrograde tracing studies in macaque find only few double-labeled neurons in intermediate areas upon injection in higher and lower order cortical areas. This suggests distinct neuronal source populations in specific layers, which correspond to either the feedforward or feedback type. (Markov et al. (2014), Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex). As in the supragranular department, this distinction occurs between Layers 2/3a and Layer 3b, the code provides a distinction of these populations based on anatomical and experimental data.
+The original code implements the spiking network model of macaque visual cortex developed at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. ()
 The model has been documented in the following publications:
 
 1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
@@ -87,7 +87,7 @@ basic analysis and plotting.
 ## Analysis and figure scripts for [1-3]
 
 The `figures` folder contains subfolders with all scripts necessary to produce
-the figures from [1-3]. If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522) 
+the figures from [1-3]. If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522)
 is installed, the figures can be produced by executing
 `snakemake` in the respective folder, e.g.:
 
@@ -233,7 +233,7 @@ All authors of the publications [1-3] made contributions to the
 scientific content. The code base was written by Maximilian Schmidt,
 Jannis Schuecker, and Sacha van Albada with small contributions from
 Moritz Helias. Testing and review was supported by Alexander van
-Meegen.
+Meegen. The extension by a counterstream architecture was provided by Anno Kurth and Hannah Vollenbröker.
 
 ## Citation
 
