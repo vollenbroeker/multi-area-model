@@ -1,10 +1,10 @@
-# Multi-scale spiking network model of macaque visual cortex
+# Multi-scale spiking network model of macaque visual cortex, refined with a layer-dependent counterstream architecture
 [![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a> [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ![Model overview](model_construction.png)
 
 This codes implements an extension of the multi-area-model of macaque visual cortex, by a counterstream architecture in the supragranular layers 2 and 3. This implementation was motivated by the finding, that retrograde tracing studies in macaque find only few double-labeled neurons in intermediate areas upon injection in higher and lower order cortical areas. This suggests distinct neuronal source populations in specific layers, which correspond to either the feedforward or feedback type. (Markov et al. (2014), Anatomy of Hierarchy: Feedforward and Feedback Pathways in Macaque Visual Cortex). As in the supragranular department, this distinction occurs between Layers 2/3a and Layer 3b, the code provides a distinction of these populations based on anatomical and experimental data.
-The original code implements the spiking network model of macaque visual cortex developed at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. ()
+The original code implements the spiking network model of macaque visual cortex developed at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. (https://github.com/INM-6/multi-area-model)
 The model has been documented in the following publications:
 
 1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
