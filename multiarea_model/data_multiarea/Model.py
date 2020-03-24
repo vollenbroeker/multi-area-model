@@ -700,6 +700,15 @@ def compute_Model_params(out_label='', mode='default'):
                 else:
                     SLN_value = SLN_Data[target_area][source_area]
 
+                # no feedforward connection from L23a
+                if source_pop == 'L23aE' and SLN_value > 0.65:
+                    SLN_value = 0.
+
+                # no feedback connection from L3b
+                if source_pop == 'L3b' and  SLN_value < 0.35:
+                    if SLN_value != 0:
+                        SLN_value = 1
+
                 if source_pop in origin_patterns['S']:
                     if np.any(sp[:3] != 0):
                         X = SLN_value
