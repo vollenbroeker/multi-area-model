@@ -76,8 +76,6 @@ def compute_Model_params(out_label='', mode='default'):
     Intra_areal = raw_data['Intrinsic_Connectivity']
     total_thicknesses = processed_data['total_thicknesses']
     laminar_thicknesses = processed_data['laminar_thicknesses']
-    #import IPython
-    #IPython.embed()
     Intrinsic_FLN_Data = raw_data['Intrinsic_FLN_Data']
     neuronal_numbers_fullscale = processed_data['realistic_neuronal_numbers']
     num_V1 = raw_data['num_V1']
@@ -94,15 +92,14 @@ def compute_Model_params(out_label='', mode='default'):
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
+
+    # Modify population list by splitting L23 into L23a L3b
     population_list = ['23aE', '23aI', '3bE', '3bI', '4E', '4I', '5E', '5I', '6E', '6I']
     termination_layers = {'F': ['4'], 'M': ['1', '23a','3b', '5', '6'], 'C': [
         '1', '23a', '3b', '4', '5', '6'], 'S': ['1', '23a', '3b']}
     termination_layers2 = {'F': [4], 'M': [
         1, 2, 3, 5, 6], 'C': [1, 2, 3, 4, 5, 6], 'S': [1, 2, 3]}
-    termination_markov2 = {'E' : [4]}
-    termination_markov = {'E' : ['4']}
-    origin_patterns = {'S': ['3bE'], 'I': ['5E', '6E'], 'B': ['23aE', '5E', '6E']}
-    origin_markov = {'E' : ['3bE']}
+    origin_patterns = {'S': ['23aE','3bE'], 'I': ['5E', '6E'], 'B': ['23aE', '5E', '6E']}
 
     binzegger_pops = list(binzegger_data.keys())
     binzegger_I_pops = [binzegger_pops[i] for i in range(
@@ -527,6 +524,7 @@ def compute_Model_params(out_label='', mode='default'):
         relative_numbers_model_new[pop] = neuronal_numbers[
             'V1'][pop] / neuronal_numbers['V1']['total']
 
+    # Determine relative population size of L23aE and L23I wrt L23
     sum_E = relative_numbers_model_new['23aE'] + relative_numbers_model_new['3bE']
     sum_I = relative_numbers_model_new['23aI'] + relative_numbers_model_new['3bI']
     ratio_E = relative_numbers_model_new['23aE']/sum_E
@@ -674,14 +672,10 @@ def compute_Model_params(out_label='', mode='default'):
         """
 
         Nsyn = 0.0
-        print('########################')
-        print(source_area)
-        print(source_pop)
-        print(target_area)
-        print(target_pop)
+
         # Test if the connection exists.
         if (source_area in Coco_Data[target_area] and
-            source_pop not in ['4I', '4E', '23aE'] and
+            source_pop not in ['4I', '4E'] and
             neuronal_numbers[target_area][target_pop] != 0 and
                 source_pop not in ['23aI', '3bI', '4I', '5I', '6I']):
 
@@ -691,13 +685,11 @@ def compute_Model_params(out_label='', mode='default'):
             FLN_BA = FLN_completed[target_area][source_area]
             Nsyn_tot = rho_syn[target_area] * \
                 Area_surfaces[target_area] * total_thicknesses[target_area]
-
             # source side
             # if there is laminar information in CoCoMac, use it
             if Coco_Data[target_area][source_area]['source_pattern'] is not None:
                 sp = np.array(Coco_Data[target_area][source_area][
                               'source_pattern'], dtype=np.float)
-
                 # Manually determine SLN, based on CoCoMac:
                 # from supragranular, then SLN=0.,
                 # no connections from infragranular --> SLN=1.
@@ -707,6 +699,15 @@ def compute_Model_params(out_label='', mode='default'):
                     SLN_value = 1.
                 else:
                     SLN_value = SLN_Data[target_area][source_area]
+
+                # no feedforward connection from L23a
+                if source_pop == 'L23aE' and SLN_value > 0.65:
+                    SLN_value = 0.
+
+                # no feedback connection from L3b
+                if source_pop == 'L3b' and  SLN_value < 0.35:
+                    if SLN_value != 0:
+                        SLN_value = 1
 
                 if source_pop in origin_patterns['S']:
                     if np.any(sp[:3] != 0):
@@ -759,8 +760,7 @@ def compute_Model_params(out_label='', mode='default'):
                     elif SLN_Data[target_area][source_area] < 0.35:
                         T_hierarchy = termination_layers2['M']
                     elif SLN_Data[target_area][source_area] > 0.65:
-                        #T_hierarchy = termination_layers2['F']
-                        T_hierarchy = termination_markov2['E']
+                        T_hierarchy = termination_layers2['F']
                     for l in T_hierarchy:
                         if tp[l - 1] == -1:
                             tp[l - 1] = 2
@@ -771,7 +771,6 @@ def compute_Model_params(out_label='', mode='default'):
                 Nsyn = 0.0
                 su = 0.
                 for i in range(len(T)):
-                    print(T)
                     if T[i] in [2, 3]:
                         syn_layer = '23a'
                     else:
@@ -792,8 +791,7 @@ def compute_Model_params(out_label='', mode='default'):
                 elif SLN_Data[target_area][source_area] < 0.35:
                     T = termination_layers['M']
                 elif SLN_Data[target_area][source_area] > 0.65:
-                    #T = termination_layers['F']
-                    T = termination_markov['E']
+                    T = termination_layers['F']
 
                 p_T = 0.0
                 for i in T:
@@ -1059,7 +1057,5 @@ def compute_Model_params(out_label='', mode='default'):
                                      'json'))), 'w') as f:
         json.dump(collected_data, f)
 
-    #import IPython
-    #IPython.embed()
 if __name__ == '__main__':
     compute_Model_params()
